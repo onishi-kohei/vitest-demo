@@ -81,18 +81,18 @@ describe("Counter コンポーネント", () => {
   describe("UI状態のテスト", () => {
     it("ボタンのクラスが正しく設定されている", () => {
       expect(wrapper.find('[data-testid="increment-btn"]').classes()).toContain(
-        "btn-primary"
+        "bg-blue-600"
       );
       expect(wrapper.find('[data-testid="decrement-btn"]').classes()).toContain(
-        "btn-secondary"
+        "bg-gray-600"
       );
       expect(wrapper.find('[data-testid="reset-btn"]').classes()).toContain(
-        "btn-danger"
+        "bg-red-600"
       );
     });
 
     it("カウンター表示エリアが正しくレンダリングされる", () => {
-      const counterDisplay = wrapper.find(".counter-display");
+      const counterDisplay = wrapper.find(".text-3xl");
       expect(counterDisplay.exists()).toBe(true);
       expect(
         counterDisplay.find('[data-testid="counter-value"]').exists()

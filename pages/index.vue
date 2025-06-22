@@ -1,42 +1,42 @@
 <template>
-  <div class="home-page">
-    <header class="header">
-      <h1 data-testid="page-title">Vitest ブラウザモード デモ</h1>
-      <p data-testid="page-description">
+  <div class="max-w-6xl mx-auto p-8">
+    <header class="text-center mb-12">
+      <h1 data-testid="page-title" class="text-blue-600 text-4xl mb-4 font-bold">Vitest ブラウザモード デモ</h1>
+      <p data-testid="page-description" class="text-gray-500 text-lg">
         Nuxt 3 + Vitest ブラウザモードによるリグレッションテスト環境
       </p>
     </header>
 
-    <main class="main-content">
-      <section class="demo-section">
-        <h2>コンポーネントデモ</h2>
+    <main class="grid gap-12">
+      <section>
+        <h2 class="text-gray-800 border-b-2 border-gray-200 pb-2 mb-8 text-2xl font-semibold">コンポーネントデモ</h2>
 
         <!-- カウンターコンポーネント -->
-        <div class="component-demo">
-          <h3>カウンターコンポーネント</h3>
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-8 mb-8">
+          <h3 class="text-gray-700 mb-4 text-xl font-medium">カウンターコンポーネント</h3>
           <Counter />
         </div>
 
         <!-- ユーザーフォームコンポーネント -->
-        <div class="component-demo">
-          <h3>ユーザーフォーム</h3>
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-8 mb-8">
+          <h3 class="text-gray-700 mb-4 text-xl font-medium">ユーザーフォーム</h3>
           <UserForm @submit="handleUserSubmit" />
         </div>
 
         <!-- タスクリストコンポーネント -->
-        <div class="component-demo">
-          <h3>タスクリスト</h3>
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-8 mb-8">
+          <h3 class="text-gray-700 mb-4 text-xl font-medium">タスクリスト</h3>
           <TaskList />
         </div>
       </section>
 
-      <section class="info-section">
-        <h2>テスト環境について</h2>
-        <ul>
-          <li>ユニットテスト: Vue Test Utils + Vitest</li>
-          <li>インテグレーションテスト: @nuxt/test-utils + Vitest</li>
-          <li>ブラウザテスト: Vitest Browser Mode + Playwright</li>
-          <li>ビジュアルリグレッション: スナップショットテスト</li>
+      <section>
+        <h2 class="text-gray-800 border-b-2 border-gray-200 pb-2 mb-8 text-2xl font-semibold">テスト環境について</h2>
+        <ul class="list-none p-0">
+          <li class="bg-blue-50 border border-blue-200 rounded-md p-4 mb-2 text-blue-800 before:content-['✓_'] before:text-green-600 before:font-bold">ユニットテスト: Vue Test Utils + Vitest</li>
+          <li class="bg-blue-50 border border-blue-200 rounded-md p-4 mb-2 text-blue-800 before:content-['✓_'] before:text-green-600 before:font-bold">インテグレーションテスト: @nuxt/test-utils + Vitest</li>
+          <li class="bg-blue-50 border border-blue-200 rounded-md p-4 mb-2 text-blue-800 before:content-['✓_'] before:text-green-600 before:font-bold">ブラウザテスト: Vitest Browser Mode + Playwright</li>
+          <li class="bg-blue-50 border border-blue-200 rounded-md p-4 mb-2 text-blue-800 before:content-['✓_'] before:text-green-600 before:font-bold">ビジュアルリグレッション: スナップショットテスト</li>
         </ul>
       </section>
     </main>
@@ -69,71 +69,5 @@ useSeoMeta({
 </script>
 
 <style scoped>
-.home-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.header h1 {
-  color: #2563eb;
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.header p {
-  color: #6b7280;
-  font-size: 1.1rem;
-}
-
-.main-content {
-  display: grid;
-  gap: 3rem;
-}
-
-.demo-section h2,
-.info-section h2 {
-  color: #1f2937;
-  border-bottom: 2px solid #e5e7eb;
-  padding-bottom: 0.5rem;
-  margin-bottom: 2rem;
-}
-
-.component-demo {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-}
-
-.component-demo h3 {
-  color: #374151;
-  margin-bottom: 1rem;
-}
-
-.info-section ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.info-section li {
-  background: #eff6ff;
-  border: 1px solid #bfdbfe;
-  border-radius: 6px;
-  padding: 1rem;
-  margin-bottom: 0.5rem;
-  color: #1e40af;
-}
-
-.info-section li::before {
-  content: "✓ ";
-  color: #059669;
-  font-weight: bold;
-}
+/* Tailwind CSSを使用しているため、カスタムスタイルは不要 */
 </style>

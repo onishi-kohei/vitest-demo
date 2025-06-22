@@ -1,45 +1,45 @@
 <template>
   <form
-    class="user-form"
+    class="max-w-sm mx-auto p-8 bg-white border border-gray-200 rounded-lg shadow-sm"
     data-testid="user-form"
     @submit.prevent="handleSubmit"
   >
-    <h3>ユーザー情報入力</h3>
+    <h3 class="text-gray-800 mb-6 text-center text-xl font-semibold">ユーザー情報入力</h3>
 
-    <div class="form-group">
-      <label for="name">名前:</label>
+    <div class="mb-6">
+      <label for="name" class="block mb-2 font-medium text-gray-700">名前:</label>
       <input
         id="name"
         v-model="form.name"
         type="text"
         data-testid="name-input"
         required
-        class="form-input"
+        class="w-full px-3 py-3 border border-gray-300 rounded text-base transition-colors duration-200 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
         placeholder="山田太郎"
       >
-      <span v-if="errors.name" class="error-message" data-testid="name-error">
+      <span v-if="errors.name" class="block mt-2 text-red-600 text-sm" data-testid="name-error">
         {{ errors.name }}
       </span>
     </div>
 
-    <div class="form-group">
-      <label for="email">メールアドレス:</label>
+    <div class="mb-6">
+      <label for="email" class="block mb-2 font-medium text-gray-700">メールアドレス:</label>
       <input
         id="email"
         v-model="form.email"
         type="email"
         data-testid="email-input"
         required
-        class="form-input"
+        class="w-full px-3 py-3 border border-gray-300 rounded text-base transition-colors duration-200 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
         placeholder="example@email.com"
       >
-      <span v-if="errors.email" class="error-message" data-testid="email-error">
+      <span v-if="errors.email" class="block mt-2 text-red-600 text-sm" data-testid="email-error">
         {{ errors.email }}
       </span>
     </div>
 
-    <div class="form-group">
-      <label for="age">年齢:</label>
+    <div class="mb-6">
+      <label for="age" class="block mb-2 font-medium text-gray-700">年齢:</label>
       <input
         id="age"
         v-model.number="form.age"
@@ -47,21 +47,21 @@
         data-testid="age-input"
         min="0"
         max="120"
-        class="form-input"
+        class="w-full px-3 py-3 border border-gray-300 rounded text-base transition-colors duration-200 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
         placeholder="25"
       >
-      <span v-if="errors.age" class="error-message" data-testid="age-error">
+      <span v-if="errors.age" class="block mt-2 text-red-600 text-sm" data-testid="age-error">
         {{ errors.age }}
       </span>
     </div>
 
-    <div class="form-group">
-      <label for="department">部署:</label>
+    <div class="mb-6">
+      <label for="department" class="block mb-2 font-medium text-gray-700">部署:</label>
       <select
         id="department"
         v-model="form.department"
         data-testid="department-select"
-        class="form-input"
+        class="w-full px-3 py-3 border border-gray-300 rounded text-base transition-colors duration-200 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
       >
         <option value="">選択してください</option>
         <option value="engineering">エンジニアリング</option>
@@ -72,12 +72,12 @@
       </select>
     </div>
 
-    <div class="form-actions">
+    <div class="flex gap-4 mt-8">
       <button
         type="submit"
         :disabled="!isFormValid || isSubmitting"
         data-testid="submit-btn"
-        class="btn btn-primary"
+        class="flex-1 px-4 py-3 border-none rounded text-base font-medium cursor-pointer transition-all duration-200 bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed"
       >
         <span v-if="isSubmitting">送信中...</span>
         <span v-else>送信</span>
@@ -86,7 +86,7 @@
       <button
         type="button"
         data-testid="reset-btn"
-        class="btn btn-secondary"
+        class="flex-1 px-4 py-3 border-none rounded text-base font-medium cursor-pointer transition-all duration-200 bg-gray-600 text-white hover:bg-gray-700"
         @click="resetForm"
       >
         リセット
@@ -95,7 +95,7 @@
 
     <div
       v-if="submitSuccess"
-      class="success-message"
+      class="mt-4 px-3 py-3 bg-green-100 border border-green-300 rounded text-green-800 text-center"
       data-testid="success-message"
     >
       ユーザー情報が正常に送信されました！
@@ -223,102 +223,5 @@ const resetForm = () => {
 </script>
 
 <style scoped>
-.user-form {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 2rem;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.user-form h3 {
-  color: #1f2937;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #374151;
-}
-
-.form-input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  font-size: 1rem;
-  transition: border-color 0.2s;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-
-.error-message {
-  display: block;
-  margin-top: 0.5rem;
-  color: #dc2626;
-  font-size: 0.875rem;
-}
-
-.form-actions {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.btn {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.btn-primary {
-  background-color: #2563eb;
-  color: white;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background-color: #1d4ed8;
-}
-
-.btn-secondary {
-  background-color: #6b7280;
-  color: white;
-}
-
-.btn-secondary:hover:not(:disabled) {
-  background-color: #4b5563;
-}
-
-.success-message {
-  margin-top: 1rem;
-  padding: 0.75rem;
-  background-color: #d1fae5;
-  border: 1px solid #a7f3d0;
-  border-radius: 4px;
-  color: #065f46;
-  text-align: center;
-}
+/* Tailwind CSSを使用しているため、カスタムスタイルは不要 */
 </style>

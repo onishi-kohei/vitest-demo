@@ -1,25 +1,29 @@
 <template>
-  <div class="counter">
-    <h2>カウンター</h2>
-    <div class="counter-display">
+  <div class="max-w-sm mx-auto p-5 border border-gray-300 rounded-lg text-center font-sans">
+    <h2 class="text-xl font-semibold mb-4">カウンター</h2>
+    <div class="text-3xl my-5 text-gray-800">
       <span data-testid="counter-value">{{ count }}</span>
     </div>
-    <div class="counter-controls">
+    <div class="flex gap-2.5 justify-center">
       <button
         data-testid="increment-btn"
-        class="btn btn-primary"
+        class="px-5 py-2.5 border-none rounded cursor-pointer text-base bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-200"
         @click="increment"
       >
         +
       </button>
       <button
         data-testid="decrement-btn"
-        class="btn btn-secondary"
+        class="px-5 py-2.5 border-none rounded cursor-pointer text-base bg-gray-600 text-white hover:bg-gray-700 transition-colors duration-200"
         @click="decrement"
       >
         -
       </button>
-      <button data-testid="reset-btn" class="btn btn-danger" @click="reset">
+      <button
+        data-testid="reset-btn"
+        class="px-5 py-2.5 border-none rounded cursor-pointer text-base bg-red-600 text-white hover:bg-red-700 transition-colors duration-200"
+        @click="reset"
+      >
         リセット
       </button>
     </div>
@@ -51,61 +55,5 @@ defineExpose({
 </script>
 
 <style scoped>
-.counter {
-  max-width: 300px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  text-align: center;
-  font-family: sans-serif;
-}
-
-.counter-display {
-  font-size: 2rem;
-  margin: 20px 0;
-  color: #333;
-}
-
-.counter-controls {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-
-.btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.2s;
-}
-
-.btn-primary {
-  background-color: #007bff;
-  color: white;
-}
-
-.btn-primary:hover {
-  background-color: #0056b3;
-}
-
-.btn-secondary {
-  background-color: #6c757d;
-  color: white;
-}
-
-.btn-secondary:hover {
-  background-color: #545b62;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-  color: white;
-}
-
-.btn-danger:hover {
-  background-color: #c82333;
-}
+/* Tailwind CSSを使用しているため、カスタムスタイルは不要 */
 </style>

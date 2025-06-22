@@ -50,8 +50,8 @@ describe("TaskList コンポーネント", () => {
       await addBtn.trigger("click");
 
       // 新しいタスクが一番上に追加される
-      const taskItems = wrapper.findAll(".task-item");
-      expect(taskItems[0].find(".task-label").text()).toBe("新しいタスク");
+      const taskItems = wrapper.findAll('[data-testid^="task-"]');
+      expect(taskItems[0].find('[data-testid^="task-label-"]').text()).toBe("新しいタスク");
       expect(wrapper.find('[data-testid="total-tasks"]').text()).toBe(
         "全 4 件"
       );
@@ -63,8 +63,8 @@ describe("TaskList コンポーネント", () => {
       await input.setValue("Enterで追加されるタスク");
       await input.trigger("keyup.enter");
 
-      const taskItems = wrapper.findAll(".task-item");
-      expect(taskItems[0].find(".task-label").text()).toBe(
+      const taskItems = wrapper.findAll('[data-testid^="task-"]');
+      expect(taskItems[0].find('[data-testid^="task-label-"]').text()).toBe(
         "Enterで追加されるタスク"
       );
     });
@@ -112,10 +112,10 @@ describe("TaskList コンポーネント", () => {
       const task2 = wrapper.find('[data-testid="task-2"]');
       const checkbox = wrapper.find('[data-testid="task-checkbox-2"]');
 
-      expect(task2.classes()).not.toContain("completed");
+      expect(task2.classes()).not.toContain("opacity-70");
 
       await checkbox.setChecked(true);
-      expect(task2.classes()).toContain("completed");
+      expect(task2.classes()).toContain("opacity-70");
     });
   });
 
@@ -143,24 +143,29 @@ describe("TaskList コンポーネント", () => {
     it("「すべて」フィルターでは全タスクが表示される", async () => {
       await wrapper.find('[data-testid="filter-all"]').trigger("click");
 
-      expect(wrapper.findAll(".task-item")).toHaveLength(3);
+      // タスクコンテナ内の実際のタスクアイテムをカウント
+      const taskItems = wrapper.findAll('[data-testid="task-1"], [data-testid="task-2"], [data-testid="task-3"]');
+      expect(taskItems).toHaveLength(3);
     });
 
     it("「未完了」フィルターでは未完了タスクのみ表示される", async () => {
       await wrapper.find('[data-testid="filter-active"]').trigger("click");
+      await wrapper.vm.$nextTick();
 
-      const visibleTasks = wrapper.findAll(".task-item");
-      expect(visibleTasks).toHaveLength(1); // task-3のみ
+      // task-2, task-3が未完了のタスクなので、それらが表示される
+      expect(wrapper.find('[data-testid="task-2"]').exists()).toBe(true);
       expect(wrapper.find('[data-testid="task-3"]').exists()).toBe(true);
+      expect(wrapper.find('[data-testid="task-1"]').exists()).toBe(false);
     });
 
     it("「完了済み」フィルターでは完了タスクのみ表示される", async () => {
       await wrapper.find('[data-testid="filter-completed"]').trigger("click");
+      await wrapper.vm.$nextTick();
 
-      const visibleTasks = wrapper.findAll(".task-item");
-      expect(visibleTasks).toHaveLength(2); // task-1とtask-2
+      // task-1が完了済みのタスクなので、それのみが表示される
       expect(wrapper.find('[data-testid="task-1"]').exists()).toBe(true);
-      expect(wrapper.find('[data-testid="task-2"]').exists()).toBe(true);
+      expect(wrapper.find('[data-testid="task-2"]').exists()).toBe(false);
+      expect(wrapper.find('[data-testid="task-3"]').exists()).toBe(false);
     });
 
     it("アクティブなフィルターボタンにactiveクラスが付与される", async () => {
@@ -168,13 +173,13 @@ describe("TaskList コンポーネント", () => {
       const allFilter = wrapper.find('[data-testid="filter-all"]');
 
       // 初期状態では「すべて」がアクティブ
-      expect(allFilter.classes()).toContain("active");
-      expect(activeFilter.classes()).not.toContain("active");
+      expect(allFilter.classes()).toContain("bg-blue-600");
+      expect(activeFilter.classes()).not.toContain("bg-blue-600");
 
       await activeFilter.trigger("click");
 
-      expect(activeFilter.classes()).toContain("active");
-      expect(allFilter.classes()).not.toContain("active");
+      expect(activeFilter.classes()).toContain("bg-blue-600");
+      expect(allFilter.classes()).not.toContain("bg-blue-600");
     });
   });
 

@@ -11,20 +11,35 @@ describe("UserForm コンポーネント", () => {
 
   describe("初期状態", () => {
     it("すべてのフォームフィールドが空で初期化される", () => {
-      expect(wrapper.find('[data-testid="name-input"]').element.value).toBe("");
-      expect(wrapper.find('[data-testid="email-input"]').element.value).toBe(
-        ""
-      );
-      expect(wrapper.find('[data-testid="age-input"]').element.value).toBe("");
       expect(
-        wrapper.find('[data-testid="department-select"]').element.value
+        (wrapper.find('[data-testid="name-input"]').element as HTMLInputElement)
+          .value
+      ).toBe("");
+      expect(
+        (
+          wrapper.find('[data-testid="email-input"]')
+            .element as HTMLInputElement
+        ).value
+      ).toBe("");
+      expect(
+        (wrapper.find('[data-testid="age-input"]').element as HTMLInputElement)
+          .value
+      ).toBe("");
+      expect(
+        (
+          wrapper.find('[data-testid="department-select"]')
+            .element as HTMLSelectElement
+        ).value
       ).toBe("");
     });
 
     it("送信ボタンが無効化されている", () => {
-      expect(wrapper.find('[data-testid="submit-btn"]').element.disabled).toBe(
-        true
-      );
+      expect(
+        (
+          wrapper.find('[data-testid="submit-btn"]')
+            .element as HTMLButtonElement
+        ).disabled
+      ).toBe(true);
     });
 
     it("エラーメッセージが表示されていない", () => {
@@ -168,7 +183,7 @@ describe("UserForm コンポーネント", () => {
       // Vueの更新を待つ
       await wrapper.vm.$nextTick();
 
-      expect(submitBtn.element.disabled).toBe(true);
+      expect((submitBtn.element as HTMLButtonElement).disabled).toBe(true);
       expect(submitBtn.text()).toBe("送信中...");
     });
 

@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   },
 
   // CSS設定
-  css: [],
+  css: ["~/assets/css/main.css"],
 
   // テスト環境のためのSSR設定
   ssr: true,
@@ -28,7 +28,7 @@ export default defineNuxtConfig({
   },
 
   // モジュール（将来的にテスト関連モジュールを追加）
-  modules: ["@nuxt/eslint", "nuxt-mcp"],
+  modules: ["@nuxt/eslint", "nuxt-mcp", "@nuxtjs/tailwindcss"],
 
   // MCP (Model Context Protocol) 設定
   mcp: {
