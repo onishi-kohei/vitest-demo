@@ -19,11 +19,7 @@
       >
         -
       </button>
-      <button
-        data-testid="reset-btn"
-        class="btn btn-danger"
-        @click="reset"
-      >
+      <button data-testid="reset-btn" class="btn btn-danger" @click="reset">
         リセット
       </button>
     </div>
@@ -31,27 +27,27 @@
 </template>
 
 <script setup lang="ts">
-const count = ref(0)
+const count = ref(0);
 
 const increment = () => {
-  count.value++
-}
+  count.value++;
+};
 
 const decrement = () => {
-  count.value--
-}
+  count.value--;
+};
 
 const reset = () => {
-  count.value = 0
-}
+  count.value = 0;
+};
 
 // リアクティブなプロパティの公開（テスト用）
 defineExpose({
   count: readonly(count),
   increment,
   decrement,
-  reset
-})
+  reset,
+});
 </script>
 
 <style scoped>

@@ -28,5 +28,19 @@ export default defineNuxtConfig({
   },
 
   // モジュール（将来的にテスト関連モジュールを追加）
-  modules: ["@nuxt/eslint"],
+  modules: ["@nuxt/eslint", "nuxt-mcp"],
+
+  // MCP (Model Context Protocol) 設定
+  mcp: {
+    // Nuxtドキュメントサーバーを含める
+    includeNuxtDocsMcp: true,
+    // 設定ファイルの自動更新を有効化
+    updateConfig: "auto",
+    // サーバー名をプロジェクト名に合わせる
+    updateConfigServerName: "vitest-demo-nuxt",
+    // 追加のMCPサーバーがあれば設定可能
+    updateConfigAdditionalServers: [],
+    // 開発者向けにURLを表示
+    printUrl: true,
+  },
 });

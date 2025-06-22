@@ -12,6 +12,7 @@ Nuxt 3 + Vitest ブラウザモードを使用したリグレッションテス�
 - **Vitest Browser Mode** - Playwright 統合によるブラウザベーステスト
 - **TypeScript** - 型安全性とより良い開発体験
 - **Multiple Test Strategies** - ユニット、インテグレーション、ブラウザテストの包括的テスト戦略
+- **MCP Server** - AI開発アシスタント向けのModel Context Protocol統合
 
 ## 🚀 クイックスタート
 
@@ -188,6 +189,24 @@ GitHub Actions を使用した自動テスト実行：
 2. **アクセシビリティ**: 適切な ARIA 属性とラベル
 3. **型安全性**: TypeScript の活用
 4. **リアクティビティ**: Vue 3 Composition API の使用
+
+## 🤖 MCP (Model Context Protocol) サーバー
+
+このプロジェクトには、AI開発アシスタント（VSCode、Cursor、Windsurf、Claude Code等）向けのMCPサーバーが統合されています。
+
+### 機能
+
+- **プロジェクト構造の自動認識**: テスト設定、フレームワーク情報の提供
+- **テスト実行支援**: AIアシスタントからのテスト実行
+- **コード品質チェック**: ESLint + Prettier + テストの一括実行
+- **テストファイル生成**: コンポーネント用テストファイルの自動生成
+
+### アクセス情報
+
+- **MCPサーバーURL**: `http://localhost:3000/__mcp/sse`
+- **設定ファイル**: `.vscode/mcp.json` (自動生成済み)
+
+詳細は [MCP Server Documentation](./docs/MCP_SERVER.md) を参照してください。
 
 ## 📚 参考資料
 

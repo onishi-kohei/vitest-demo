@@ -73,16 +73,16 @@
       </div>
     </div>
 
-    <div v-if="filteredTasks.length === 0" class="empty-state" data-testid="empty-state">
+    <div
+      v-if="filteredTasks.length === 0"
+      class="empty-state"
+      data-testid="empty-state"
+    >
       <p v-if="currentFilter === 'all'">
         タスクがありません。新しいタスクを追加してください。
       </p>
-      <p v-else-if="currentFilter === 'active'">
-        未完了のタスクはありません。
-      </p>
-      <p v-else>
-        完了したタスクはありません。
-      </p>
+      <p v-else-if="currentFilter === 'active'">未完了のタスクはありません。</p>
+      <p v-else>完了したタスクはありません。</p>
     </div>
 
     <div v-if="tasks.length > 0" class="task-actions">
@@ -91,7 +91,7 @@
         class="btn btn-secondary"
         @click="toggleAllTasks"
       >
-        {{ allCompleted ? 'すべて未完了にする' : 'すべて完了にする' }}
+        {{ allCompleted ? "すべて未完了にする" : "すべて完了にする" }}
       </button>
       <button
         :disabled="completedCount === 0"
@@ -107,93 +107,108 @@
 
 <script setup lang="ts">
 interface Task {
-  id: string
-  title: string
-  completed: boolean
-  createdAt: Date
+  id: string;
+  title: string;
+  completed: boolean;
+  createdAt: Date;
 }
 
-type FilterType = 'all' | 'active' | 'completed'
+type FilterType = "all" | "active" | "completed";
 
 // Reactive data
 const tasks = ref<Task[]>([
-  { id: '1', title: 'Vitestのブラウザモードをセットアップ', completed: true, createdAt: new Date('2024-01-01') },
-  { id: '2', title: 'ユニットテストを作成', completed: false, createdAt: new Date('2024-01-02') },
-  { id: '3', title: 'インテグレーションテストを実装', completed: false, createdAt: new Date('2024-01-03') },
-])
+  {
+    id: "1",
+    title: "Vitestのブラウザモードをセットアップ",
+    completed: true,
+    createdAt: new Date("2024-01-01"),
+  },
+  {
+    id: "2",
+    title: "ユニットテストを作成",
+    completed: false,
+    createdAt: new Date("2024-01-02"),
+  },
+  {
+    id: "3",
+    title: "インテグレーションテストを実装",
+    completed: false,
+    createdAt: new Date("2024-01-03"),
+  },
+]);
 
-const newTaskTitle = ref('')
-const currentFilter = ref<FilterType>('all')
+const newTaskTitle = ref("");
+const currentFilter = ref<FilterType>("all");
 
 const filters = [
-  { value: 'all' as FilterType, label: 'すべて' },
-  { value: 'active' as FilterType, label: '未完了' },
-  { value: 'completed' as FilterType, label: '完了済み' },
-]
+  { value: "all" as FilterType, label: "すべて" },
+  { value: "active" as FilterType, label: "未完了" },
+  { value: "completed" as FilterType, label: "完了済み" },
+];
 
 // Computed
-const completedCount = computed(() =>
-  tasks.value.filter(task => task.completed).length
-)
+const completedCount = computed(
+  () => tasks.value.filter((task) => task.completed).length
+);
 
-const allCompleted = computed(() =>
-  tasks.value.length > 0 && tasks.value.every(task => task.completed)
-)
+const allCompleted = computed(
+  () => tasks.value.length > 0 && tasks.value.every((task) => task.completed)
+);
 
 const filteredTasks = computed(() => {
   switch (currentFilter.value) {
-    case 'active':
-      return tasks.value.filter(task => !task.completed)
-    case 'completed':
-      return tasks.value.filter(task => task.completed)
+    case "active":
+      return tasks.value.filter((task) => !task.completed);
+    case "completed":
+      return tasks.value.filter((task) => task.completed);
     default:
-      return tasks.value
+      return tasks.value;
   }
-})
+});
 
 // Methods
 const addTask = () => {
-  const title = newTaskTitle.value.trim()
-  if (!title) return
+  const title = newTaskTitle.value.trim();
+  if (!title) return;
 
   const newTask: Task = {
     id: Date.now().toString(),
     title,
     completed: false,
-    createdAt: new Date()
-  }
+    createdAt: new Date(),
+  };
 
-  tasks.value.unshift(newTask)
-  newTaskTitle.value = ''
-}
+  tasks.value.unshift(newTask);
+  newTaskTitle.value = "";
+};
 
 const removeTask = (id: string) => {
-  const index = tasks.value.findIndex(task => task.id === id)
+  const index = tasks.value.findIndex((task) => task.id === id);
   if (index > -1) {
-    tasks.value.splice(index, 1)
+    tasks.value.splice(index, 1);
   }
-}
+};
 
 const toggleAllTasks = () => {
-  const shouldComplete = !allCompleted.value
-  tasks.value.forEach(task => {
-    task.completed = shouldComplete
-  })
-}
+  const shouldComplete = !allCompleted.value;
+  tasks.value.forEach((task) => {
+    task.completed = shouldComplete;
+  });
+};
 
 const clearCompleted = () => {
-  tasks.value = tasks.value.filter(task => !task.completed)
-}
+  tasks.value = tasks.value.filter((task) => !task.completed);
+};
 
 const formatDate = (date: Date) => {
-  return new Intl.DateTimeFormat('ja-JP', {
-    month: 'short',
-    day: 'numeric'
-  }).format(date)
-}
+  return new Intl.DateTimeFormat("ja-JP", {
+    month: "short",
+    day: "numeric",
+  }).format(date);
+};
 
 // Provide task management composable for testing
-const { addTask: _addTask, removeTask: _removeTask } = useTaskManagement(tasks)
+const { addTask: _addTask, removeTask: _removeTask } = useTaskManagement(tasks);
 
 function useTaskManagement(taskList: Ref<Task[]>) {
   return {
@@ -202,17 +217,17 @@ function useTaskManagement(taskList: Ref<Task[]>) {
         id: Date.now().toString(),
         title: title.trim(),
         completed: false,
-        createdAt: new Date()
-      }
-      taskList.value.unshift(newTask)
+        createdAt: new Date(),
+      };
+      taskList.value.unshift(newTask);
     },
     removeTask: (id: string) => {
-      const index = taskList.value.findIndex(task => task.id === id)
+      const index = taskList.value.findIndex((task) => task.id === id);
       if (index > -1) {
-        taskList.value.splice(index, 1)
+        taskList.value.splice(index, 1);
       }
-    }
-  }
+    },
+  };
 }
 </script>
 

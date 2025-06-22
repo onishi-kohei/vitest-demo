@@ -45,26 +45,27 @@
 
 <script setup lang="ts">
 interface UserFormData {
-  name: string
-  email: string
-  age: number | null
-  department: string
+  name: string;
+  email: string;
+  age: number | null;
+  department: string;
 }
 
 const handleUserSubmit = (userData: UserFormData) => {
   // 開発環境でのみログ出力
   if (import.meta.dev) {
     // eslint-disable-next-line no-console
-    console.log('ユーザーデータが送信されました:', userData)
+    console.log("ユーザーデータが送信されました:", userData);
   }
   // ここで実際のAPI呼び出しやデータ処理を行う
-}
+};
 
 // SEO設定
 useSeoMeta({
-  title: 'Vitest Browser Mode Demo',
-  description: 'Nuxt 3とVitestブラウザモードを使ったリグレッションテスト環境のデモ',
-})
+  title: "Vitest Browser Mode Demo",
+  description:
+    "Nuxt 3とVitestブラウザモードを使ったリグレッションテスト環境のデモ",
+});
 </script>
 
 <style scoped>
