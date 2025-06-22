@@ -15,17 +15,11 @@
     "format:check": "prettier --check .",
     "format:lint": "pnpm format && pnpm lint:fix",
     "test": "vitest",
-    "test:unit": "vitest tests/unit",
-    "test:integration": "vitest tests/integration",
-    "test:browser": "vitest --config vitest.browser.config.ts",
+    "test:unit": "vitest --project unit",
+    "test:browser": "vitest --project browser",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
-    "test:run": "vitest run",
-    "test:run:unit": "vitest run tests/unit",
-    "test:run:integration": "vitest run tests/integration",
-    "test:run:browser": "vitest run --config vitest.browser.config.ts",
-    "test:watch": "vitest --watch",
-    "test:all": "pnpm test:run:unit && pnpm test:run:integration && pnpm test:run:browser"
+    "test:watch": "vitest --watch"
   },
   "dependencies": {
     "nuxt": "^3.17.5",

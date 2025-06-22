@@ -4,8 +4,13 @@ import { resolve } from "path";
 
 export default defineConfig({
   plugins: [vue()],
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "."),
+      "~": resolve(__dirname, "."),
+    },
+  },
   test: {
-    environment: "jsdom",
     globals: true,
     setupFiles: ["./tests/setup.ts"],
     coverage: {
@@ -29,34 +34,9 @@ export default defineConfig({
         },
       },
     },
-    // ブラウザモードの設定
-    browser: {
-      enabled: false, // デフォルトではブラウザモードを無効化
-      name: "chromium",
-      provider: "playwright",
-      headless: true,
-      // ビューポート設定
-      viewport: {
-        width: 1280,
-        height: 720,
-      },
-    },
-    // テストファイルの分類
-    include: ["tests/**/*.{test,spec}.{js,ts}"],
-    exclude: [
-      "node_modules/",
-      "dist/",
-      ".nuxt/",
-      "tests/**/*.browser.{test,spec}.{js,ts}", // ブラウザテストは別コマンドで実行
+    projects: [
+      "./vitest.unit.config.ts",
+      "./vitest.browser.config.ts",
     ],
-    // テストタイムアウト設定
-    testTimeout: 10000,
-    hookTimeout: 10000,
-  },
-  resolve: {
-    alias: {
-      "@": resolve(__dirname, "."),
-      "~": resolve(__dirname, "."),
-    },
   },
 });
