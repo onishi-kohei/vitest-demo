@@ -1,0 +1,18 @@
+# 依存関係
+node_modules/
+pnpm-lock.yaml
+
+# ビルド出力
+dist/
+.output/
+.nuxt/
+
+# その他
+.env
+.env.*
+coverage/
+*.log
+
+# IDEファイル
+.vscode/
+.idea/
