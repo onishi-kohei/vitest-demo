@@ -1,0 +1,52 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:check": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "format:lint": "pnpm format && pnpm lint:fix",
+    "test": "vitest",
+    "test:unit": "vitest tests/unit",
+    "test:integration": "vitest tests/integration",
+    "test:browser": "vitest --config vitest.browser.config.ts",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "test:run": "vitest run",
+    "test:run:unit": "vitest run tests/unit",
+    "test:run:integration": "vitest run tests/integration",
+    "test:run:browser": "vitest run --config vitest.browser.config.ts",
+    "test:watch": "vitest --watch",
+    "test:all": "pnpm test:run:unit && pnpm test:run:integration && pnpm test:run:browser"
+  },
+  "dependencies": {
+    "nuxt": "^3.17.5",
+    "vue": "^3.5.16",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^1.4.1",
+    "@nuxt/eslint-config": "^1.4.1",
+    "@nuxt/test-utils": "^3.19.1",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "@vitest/browser": "^3.2.4",
+    "@vitest/ui": "^3.2.4",
+    "@vue/test-utils": "^2.4.6",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "jsdom": "^26.1.0",
+    "playwright": "^1.53.1",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4",
+    "vue-tsc": "^2.2.10"
+  }
+}
