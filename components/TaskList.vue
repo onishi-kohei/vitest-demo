@@ -32,8 +32,10 @@
         v-for="filter in filters"
         :key="filter.value"
         :class="[
-          'px-4 py-2 border border-gray-300 bg-white rounded cursor-pointer transition-all duration-200 hover:bg-gray-50',
-          { 'bg-blue-600 text-white border-blue-600': currentFilter === filter.value }
+          'px-4 py-2 border border-gray-300 rounded cursor-pointer transition-all duration-200 hover:bg-gray-200',
+          currentFilter === filter.value
+            ? 'bg-blue-600 text-white border-blue-600'
+            : 'bg-white'
         ]"
         :data-testid="`filter-${filter.value}`"
         @click="currentFilter = filter.value"
@@ -47,7 +49,7 @@
         v-for="task in filteredTasks"
         :key="task.id"
         :class="[
-          'flex items-center gap-3 p-3 border border-gray-200 rounded mb-2 transition-all duration-200 hover:bg-gray-50',
+          'flex items-center gap-3 p-3 border border-gray-200 rounded mb-2 transition-all duration-200 hover:bg-gray-200',
           { 'opacity-70 bg-gray-50': task.completed }
         ]"
         :data-testid="`task-${task.id}`"

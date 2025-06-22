@@ -51,7 +51,9 @@ describe("TaskList コンポーネント", () => {
 
       // 新しいタスクが一番上に追加される
       const taskItems = wrapper.findAll('[data-testid^="task-"]');
-      expect(taskItems[0].find('[data-testid^="task-label-"]').text()).toBe("新しいタスク");
+      expect(taskItems[0].find('[data-testid^="task-label-"]').text()).toBe(
+        "新しいタスク"
+      );
       expect(wrapper.find('[data-testid="total-tasks"]').text()).toBe(
         "全 4 件"
       );
@@ -144,7 +146,9 @@ describe("TaskList コンポーネント", () => {
       await wrapper.find('[data-testid="filter-all"]').trigger("click");
 
       // タスクコンテナ内の実際のタスクアイテムをカウント
-      const taskItems = wrapper.findAll('[data-testid="task-1"], [data-testid="task-2"], [data-testid="task-3"]');
+      const taskItems = wrapper.findAll(
+        '[data-testid="task-1"], [data-testid="task-2"], [data-testid="task-3"]'
+      );
       expect(taskItems).toHaveLength(3);
     });
 
@@ -152,19 +156,19 @@ describe("TaskList コンポーネント", () => {
       await wrapper.find('[data-testid="filter-active"]').trigger("click");
       await wrapper.vm.$nextTick();
 
-      // task-2, task-3が未完了のタスクなので、それらが表示される
-      expect(wrapper.find('[data-testid="task-2"]').exists()).toBe(true);
+      // beforeEachでtask-2を完了状態にしているため、task-3のみが未完了として表示される
       expect(wrapper.find('[data-testid="task-3"]').exists()).toBe(true);
       expect(wrapper.find('[data-testid="task-1"]').exists()).toBe(false);
+      expect(wrapper.find('[data-testid="task-2"]').exists()).toBe(false);
     });
 
     it("「完了済み」フィルターでは完了タスクのみ表示される", async () => {
       await wrapper.find('[data-testid="filter-completed"]').trigger("click");
       await wrapper.vm.$nextTick();
 
-      // task-1が完了済みのタスクなので、それのみが表示される
+      // beforeEachでtask-2を完了状態にしているため、task-1とtask-2が完了済みとして表示される
       expect(wrapper.find('[data-testid="task-1"]').exists()).toBe(true);
-      expect(wrapper.find('[data-testid="task-2"]').exists()).toBe(false);
+      expect(wrapper.find('[data-testid="task-2"]').exists()).toBe(true);
       expect(wrapper.find('[data-testid="task-3"]').exists()).toBe(false);
     });
 

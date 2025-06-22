@@ -177,8 +177,11 @@ describe("UserForm コンポーネント", () => {
     });
 
     it("送信中は送信ボタンが無効化される", async () => {
+      const form = wrapper.find('[data-testid="user-form"]');
       const submitBtn = wrapper.find('[data-testid="submit-btn"]');
-      await submitBtn.trigger("click");
+
+      // フォーム送信をトリガー
+      await form.trigger("submit.prevent");
 
       // Vueの更新を待つ
       await wrapper.vm.$nextTick();
@@ -188,7 +191,8 @@ describe("UserForm コンポーネント", () => {
     });
 
     it("送信成功後に成功メッセージが表示される", async () => {
-      await wrapper.find('[data-testid="submit-btn"]').trigger("click");
+      const form = wrapper.find('[data-testid="user-form"]');
+      await form.trigger("submit.prevent");
 
       // 送信処理完了まで待つ
       await new Promise((resolve) => setTimeout(resolve, 1100));
@@ -232,7 +236,7 @@ describe("UserForm コンポーネント", () => {
       // エラーを発生させる
       await wrapper.find('[data-testid="name-input"]').setValue("a");
 
-      // 他のフィールドをクリックしてバリデーションを発火
+      // バリデーションを発火させるためフォーカスを移動
       await wrapper.find('[data-testid="email-input"]').trigger("focus");
       await wrapper.vm.$nextTick();
 
@@ -240,7 +244,10 @@ describe("UserForm コンポーネント", () => {
 
       // リセット
       await wrapper.find('[data-testid="reset-btn"]').trigger("click");
+
+      // リセット後の状態変更を待つ
       await wrapper.vm.$nextTick();
+      await wrapper.vm.$nextTick(); // 追加の更新サイクル待機
 
       expect(wrapper.find('[data-testid="name-error"]').exists()).toBe(false);
     });

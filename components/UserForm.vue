@@ -117,6 +117,12 @@ interface FormErrors {
   age?: string;
 }
 
+interface TouchedFields {
+  name: boolean;
+  email: boolean;
+  age: boolean;
+}
+
 // Emits
 const emit = defineEmits<{
   submit: [userData: UserForm];
@@ -131,6 +137,11 @@ const form = ref<UserForm>({
 });
 
 const errors = ref<FormErrors>({});
+const touched = ref<TouchedFields>({
+  name: false,
+  email: false,
+  age: false,
+});
 const isSubmitting = ref(false);
 const submitSuccess = ref(false);
 
@@ -145,28 +156,53 @@ const isFormValid = computed(() => {
 
 // Validation functions
 const validateName = () => {
+  // フィールドがタッチされたらタッチ状態を記録
+  if (form.value.name !== "" || touched.value.name) {
+    touched.value.name = true;
+  }
+
   if (!form.value.name.trim()) {
-    errors.value.name = "名前は必須です";
+    // タッチされていない初期状態の場合はエラーを表示しない
+    if (!touched.value.name) {
+      delete errors.value.name;
+    } else {
+      errors.value.name = "名前は必須です";
+    }
   } else if (form.value.name.length < 2) {
+    touched.value.name = true;
     errors.value.name = "名前は2文字以上で入力してください";
   } else {
+    touched.value.name = true;
     delete errors.value.name;
   }
 };
 
 const validateEmail = () => {
+  // フィールドがタッチされたらタッチ状態を記録
+  if (form.value.email !== "" || touched.value.email) {
+    touched.value.email = true;
+  }
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!form.value.email.trim()) {
-    errors.value.email = "メールアドレスは必須です";
+    // タッチされていない初期状態の場合はエラーを表示しない
+    if (!touched.value.email) {
+      delete errors.value.email;
+    } else {
+      errors.value.email = "メールアドレスは必須です";
+    }
   } else if (!emailRegex.test(form.value.email)) {
+    touched.value.email = true;
     errors.value.email = "有効なメールアドレスを入力してください";
   } else {
+    touched.value.email = true;
     delete errors.value.email;
   }
 };
 
 const validateAge = () => {
   if (form.value.age !== null) {
+    touched.value.age = true;
     if (form.value.age < 0 || form.value.age > 120) {
       errors.value.age = "年齢は0歳から120歳の間で入力してください";
     } else {
@@ -211,13 +247,19 @@ const handleSubmit = async () => {
 };
 
 const resetForm = () => {
+  // エラーを先にクリアしてからフォームをリセット
+  errors.value = {};
+  touched.value = {
+    name: false,
+    email: false,
+    age: false,
+  };
   form.value = {
     name: "",
     email: "",
     age: null,
     department: "",
   };
-  errors.value = {};
   submitSuccess.value = false;
 };
 </script>
