@@ -1,9 +1,9 @@
-// Vitestのグローバルセットアップファイル
+// Vitestのブラウザモード専用グローバルセットアップファイル
 import { vi, beforeAll, afterAll, beforeEach, afterEach, expect } from "vitest";
 // Vue 3のComposition API関数をグローバルに利用可能にする
 import { ref, computed, reactive, watch, readonly, nextTick } from "vue";
 
-// グローバルオブジェクトの安全な取得
+// ブラウザ環境のグローバルオブジェクト取得
 const getGlobalObject = () => {
   if (typeof globalThis !== "undefined") return globalThis;
   if (typeof window !== "undefined") return window;
@@ -60,92 +60,134 @@ Object.assign(globalObj, {
   afterEach,
 });
 
-// グローバルモック設定
-globalObj.ResizeObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}));
-
-// IntersectionObserver のモック
-globalObj.IntersectionObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}));
-
-// matchMedia のモック（レスポンシブテスト用）
-const matchMediaMock = vi.fn().mockImplementation((query) => ({
-  matches: false,
-  media: query,
-  onchange: null,
-  addListener: vi.fn(), // deprecated
-  removeListener: vi.fn(), // deprecated
-  addEventListener: vi.fn(),
-  removeEventListener: vi.fn(),
-  dispatchEvent: vi.fn(),
-}));
-
-// ブラウザ環境かNode.js環境かを判定して適切にモックを設定
+// ブラウザ環境専用のグローバルモック設定
 if (typeof window !== "undefined") {
-  // ブラウザ環境
-  Object.defineProperty(window, "matchMedia", {
-    writable: true,
-    value: matchMediaMock,
-  });
+  // ResizeObserver のモック
+  if (!globalObj.ResizeObserver) {
+    globalObj.ResizeObserver = vi.fn().mockImplementation(() => ({
+      observe: vi.fn(),
+      unobserve: vi.fn(),
+      disconnect: vi.fn(),
+    }));
+  }
+
+  // IntersectionObserver のモック
+  if (!globalObj.IntersectionObserver) {
+    globalObj.IntersectionObserver = vi.fn().mockImplementation(() => ({
+      observe: vi.fn(),
+      unobserve: vi.fn(),
+      disconnect: vi.fn(),
+    }));
+  }
+
+  // matchMedia のモック（レスポンシブテスト用）
+  const matchMediaMock = vi.fn().mockImplementation((query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(), // deprecated
+    removeListener: vi.fn(), // deprecated
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }));
+
+  if (!window.matchMedia) {
+    Object.defineProperty(window, "matchMedia", {
+      writable: true,
+      value: matchMediaMock,
+    });
+  }
+
+  // scrollTo のモック
+  const scrollToMock = vi.fn();
+  if (!window.scrollTo) {
+    Object.defineProperty(window, "scrollTo", {
+      writable: true,
+      value: scrollToMock,
+    });
+  }
+
+  // localStorage のモック
+  const localStorageMock = {
+    getItem: vi.fn(),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
+    clear: vi.fn(),
+  };
+
+  const sessionStorageMock = {
+    getItem: vi.fn(),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
+    clear: vi.fn(),
+  };
+
+  if (!window.localStorage) {
+    Object.defineProperty(window, "localStorage", {
+      value: localStorageMock,
+    });
+  }
+
+  if (!window.sessionStorage) {
+    Object.defineProperty(window, "sessionStorage", {
+      value: sessionStorageMock,
+    });
+  }
 } else {
-  // Node.js環境
+  // Node.js/サーバー環境でのフォールバック
+  globalObj.ResizeObserver = vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  }));
+
+  globalObj.IntersectionObserver = vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  }));
+
+  const matchMediaMock = vi.fn().mockImplementation((query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }));
+
   Object.defineProperty(globalObj, "matchMedia", {
     writable: true,
     value: matchMediaMock,
   });
-}
 
-// scrollTo のモック
-const scrollToMock = vi.fn();
-
-if (typeof window !== "undefined") {
-  // ブラウザ環境
-  Object.defineProperty(window, "scrollTo", {
-    writable: true,
-    value: scrollToMock,
-  });
-} else {
-  // Node.js環境
+  const scrollToMock = vi.fn();
   Object.defineProperty(globalObj, "scrollTo", {
     writable: true,
     value: scrollToMock,
   });
-}
 
-// localStorage のモック
-const localStorageMock = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
-};
+  const localStorageMock = {
+    getItem: vi.fn(),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
+    clear: vi.fn(),
+  };
 
-const sessionStorageMock = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
-};
+  const sessionStorageMock = {
+    getItem: vi.fn(),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
+    clear: vi.fn(),
+  };
 
-if (typeof window !== "undefined") {
-  // ブラウザ環境
-  Object.defineProperty(window, "localStorage", {
-    value: localStorageMock,
-  });
-  Object.defineProperty(window, "sessionStorage", {
-    value: sessionStorageMock,
-  });
-} else {
-  // Node.js環境
   Object.defineProperty(globalObj, "localStorage", {
     value: localStorageMock,
   });
+
   Object.defineProperty(globalObj, "sessionStorage", {
     value: sessionStorageMock,
   });
@@ -167,8 +209,11 @@ beforeEach(() => {
   vi.clearAllMocks();
 
   // localStorage と sessionStorage をクリア
-  localStorageMock.clear();
-  sessionStorageMock.clear();
+  const localStorage = globalObj.localStorage || window?.localStorage;
+  const sessionStorage = globalObj.sessionStorage || window?.sessionStorage;
+
+  if (localStorage?.clear) localStorage.clear();
+  if (sessionStorage?.clear) sessionStorage.clear();
 
   // Nuxtモックをリセット
   useSeoMetaMock.mockClear();
@@ -181,7 +226,7 @@ beforeEach(() => {
 
 afterEach(() => {
   // DOMをクリーンアップ（ブラウザ環境の場合のみ）
-  if (typeof document !== "undefined") {
+  if (typeof document !== "undefined" && document.body) {
     document.body.innerHTML = "";
   }
 
@@ -230,4 +275,4 @@ expect.addSnapshotSerializer({
 });
 
 // テスト環境の初期化完了をログ出力
-console.log("✅ Vitest setup completed");
+console.log("✅ Vitest browser setup completed");
